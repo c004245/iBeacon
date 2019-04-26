@@ -20,7 +20,7 @@ abstract class ListTab extends StatefulWidget {
 class ListTabData {}
 
 class _ListTabState extends State<ListTab> {
-  List<ListTabResult> _result = [];
+  List<ListTabResult> _results = [];
   StreamSubscription<ListTabResult> _subscription;
   int _subscriptionStartedTimeStamp;
   bool _running = false;
@@ -42,7 +42,7 @@ class _ListTabState extends State<ListTab> {
           _subscriptionStartedTimeStamp) ~/ 1000;
 
       setState(() {
-        _result.insert(0, result);
+        _results.insert(0, result);
       });
     });
 
@@ -70,11 +70,23 @@ class _ListTabState extends State<ListTab> {
       ),
       body: Column(
         children: <Widget>[
+          //Header 구성
           Header(
             regionIdentifier: 'test',
             running: _running,
             onStart: _onStart,
             onStop: _onStop,
+          ),
+          Expanded(
+            child: ListView(
+              children: ListTile
+                  .divideTiles(
+                    context: context,
+                tiles: _results
+                  .map((location) => new _Item(result: location))
+                  .toList(),
+              ).toList(),
+            )
           )
         ],
       )
@@ -91,4 +103,69 @@ class ListTabResult {
   final String text;
   final bool isSuccessful;
   int elaspedTimeSeconds;
+}
+
+class _Item extends StatelessWidget {
+  _Item({@required this.result});
+
+  final ListTabResult result;
+
+  @override
+  Widget build(BuildContext context) {
+    final String text = result.text;
+    final String status = result.isSuccessful ? 'success' : 'failure';
+    final Color color = result.isSuccessful ? Colors.green : Colors.red;
+
+    final List<Widget> content = <Widget> [
+      Text(
+        text,
+        style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      SizedBox(
+        height: 3.0,
+      )
+    ];
+
+    return Container(
+      color: Colors.white,
+      child: SizedBox(
+        height: 56.0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: content,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 4.0,
+                ),
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: new BorderRadius.circular(6.0),
+                ),
+                child: Text(
+                  status,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.0,
+                  )
+                ),
+              )
+            ],
+          ),
+        )
+      ),
+    );
+  }
 }
