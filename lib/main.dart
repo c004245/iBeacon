@@ -5,18 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'beacon/ui/tab_ranging.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp() {
     Beacons.loggingEnabled = true;
 
-    Beacons.configure(BeaconsSettings(
-      android: BeaconsSettingsAndroid(
-        logs: BeaconsSettingsAndroidLogs.info,
-      )
-    ));
+//    Beacons.configure(BeaconsSettings(
+//      android: BeaconsSettingsAndroid(
+//        logs: BeaconsSettingsAndroidLogs.info,
+//      )
+//    ));
   }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -65,24 +67,33 @@ class _MyHomePageState extends State<MyHomePage> {
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // than having to indi                                                                                 vidually change instances of widgets.
     return MaterialApp(
-      home: CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: <BottomNavigationBarItem>[],
-        ),
-        tabBuilder: (BuildContext context, int index) {
-            return CupertinoTabView(
-              builder: (BuildContext context) {
+        home: CupertinoTabScaffold(
+            tabBar: new CupertinoTabBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  title: Text('Track'),
+                  icon: Icon(Icons.location_searching),
+                ),
+                BottomNavigationBarItem(
+                  title: Text('Monitoring'),
+                  icon: Icon(Icons.settings_remote),
+                ),
+                BottomNavigationBarItem(
+                  title: Text('Settings'),
+                  icon: Icon(Icons.settings_input_antenna),
+                ),
+              ],
+            ),
+            tabBuilder: (BuildContext context, int index) {
+              return CupertinoTabView(builder: (BuildContext context) {
                 switch (index) {
                   case 0:
                     debugPrint('RangingTab....');
                     return RangingTab();
                 }
-              }
-            );
-        }
-        )
-    );
+              });
+            }));
   }
 }
