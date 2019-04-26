@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   MyApp() {
     Beacons.loggingEnabled = true;
 
-    Beacons.configure(BeaconsSettings(
-      android: BeaconsSettingsAndroid(
-        logs: BeaconsSettingsAndroidLogs.info,
-      )
-    ));
+//    Beacons.configure(BeaconsSettings(
+//      android: BeaconsSettingsAndroid(
+//        logs: BeaconsSettingsAndroidLogs.info,
+//      )
+//    ));
   }
   // This widget is the root of your application.
   @override
@@ -65,12 +65,25 @@ class _MyHomePageState extends State<MyHomePage> {
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // than having to indi                                                                                 vidually change instances of widgets.
     return MaterialApp(
       home: CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-          items: <BottomNavigationBarItem>[],
-        ),
+          tabBar: new CupertinoTabBar(
+            items: <BottomNavigationBarItem>[
+              new BottomNavigationBarItem(
+                title: new Text('Track'),
+                icon: new Icon(Icons.location_searching),
+              ),
+              new BottomNavigationBarItem(
+                title: new Text('Monitoring'),
+                icon: new Icon(Icons.settings_remote),
+              ),
+              new BottomNavigationBarItem(
+                title: new Text('Settings'),
+                icon: new Icon(Icons.settings_input_antenna),
+              ),
+            ],
+          ),
         tabBuilder: (BuildContext context, int index) {
             return CupertinoTabView(
               builder: (BuildContext context) {
