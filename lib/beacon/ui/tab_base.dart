@@ -39,7 +39,8 @@ class _ListTabState extends State<ListTab> {
     _subscriptionStartedTimeStamp = new DateTime.now().millisecondsSinceEpoch;
     _subscription = widget.stream(region).listen((result) {
       result.elaspedTimeSeconds = (new DateTime.now().millisecondsSinceEpoch -
-          _subscriptionStartedTimeStamp) ~/ 1000;
+          _subscriptionStartedTimeStamp) ~/
+          1000;
 
       setState(() {
         _results.insert(0, result);
